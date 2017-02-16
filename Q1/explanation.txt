@@ -1,0 +1,17 @@
+Question 1 
+
+(a) Design table to display details of ref (total population) in 2005
+Data provided in cvs file
+
+Cols: 
+- Year
+- Country/Territory 
+- Origin
+- Refugee count (incl. ref like situations)
+- Asylum seeker (pending cases)
+- Returned ref
+- Internally displaced person ???
+- Returned IDPs 
+- Stateless person ???
+- Others of concern
+- Total population
