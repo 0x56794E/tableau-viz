@@ -412,7 +412,6 @@ var path = svg.append("svg:g").selectAll("path")
     .enter().append("svg:path")
     .attr("class", function(d) { return "link " + d.type; });
 
-// path => LINKS!!!
 //Color the links
 path.style("stroke", function (d) {
 	console.log(d.value);
@@ -441,7 +440,9 @@ var node = svg.selectAll(".node")
 
 // add the nodes
 node.append("circle")
-    .attr("r", 5);
+    .attr("r", function (d){
+    	return d.weight;
+    });
 
 //Append the labels to node
 var labels = node.append("text").text(function(d) {
