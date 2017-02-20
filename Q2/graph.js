@@ -395,7 +395,7 @@ var svg = d3.select("body").append("svg")
 // build the arrow.
 svg.append("svg:defs").selectAll("marker")
     .data(["end"])      // Different link/path types can be defined here
-  .enter().append("svg:marker")    // This section adds in the arrows
+    .enter().append("svg:marker")    // This section adds in the arrows
     .attr("id", String)
     .attr("viewBox", "0 -5 10 10")
     .attr("refX", 15)
@@ -403,25 +403,30 @@ svg.append("svg:defs").selectAll("marker")
     .attr("markerWidth", 6)
     .attr("markerHeight", 6)
     .attr("orient", "auto")
-  .append("svg:path")
+    .append("svg:path")
     .attr("d", "M0,-5L10,0L0,5");
 
 // add the links and the arrows
 var path = svg.append("svg:g").selectAll("path")
     .data(force.links())
-  .enter().append("svg:path")
+    .enter().append("svg:path")
     .attr("class", function(d) { return "link " + d.type; });
 
 // define the nodes
 var node = svg.selectAll(".node")
     .data(force.nodes())
-  .enter().append("g")
+    .enter().append("g")
     .attr("class", "node")
     .call(force.drag);
 
 // add the nodes
 node.append("circle")
     .attr("r", 5);
+
+//Append the labels to node
+var labels = node.append("text").text(function(d) {
+		  			return d.name; 
+			  	});
 
 
 // add the curvy lines
