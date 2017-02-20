@@ -412,6 +412,26 @@ var path = svg.append("svg:g").selectAll("path")
     .enter().append("svg:path")
     .attr("class", function(d) { return "link " + d.type; });
 
+// path => LINKS!!!
+//Color the links
+path.style("stroke", function (d) {
+	console.log(d.value);
+	
+	if (d.value < 1)
+	{
+		console.log("BLUE; value = " + d.value);
+		return "blue";
+	}
+	else if (d.value <= 2)
+	{
+		console.log("BLUE; value = " + d.value);
+		return "green";
+	}
+	
+	console.log("RED; value = " + d.value);
+	return "red";
+});
+
 // define the nodes
 var node = svg.selectAll(".node")
     .data(force.nodes())
