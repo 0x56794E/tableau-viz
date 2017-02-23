@@ -415,20 +415,15 @@ var path = svg.append("svg:g").selectAll("path")
 
 //Color the links
 path.style("stroke", function (d) {
-	console.log(d.value);
 	
 	if (d.value < 1)
 	{
-		console.log("BLUE; value = " + d.value);
 		return "blue";
 	}
 	else if (d.value <= 2)
 	{
-		console.log("BLUE; value = " + d.value);
 		return "green";
 	}
-	
-	console.log("RED; value = " + d.value);
 	return "red";
 });
 
@@ -437,7 +432,8 @@ var node = svg.selectAll(".node")
     .data(force.nodes())
     .enter().append("g")
     .attr("class", "node")
-    .call(force.drag);
+    .call(force.drag)
+    .on("dblclick", dblclick); //bind the db click handler
 
 //Scale for the node size
 var rScale = d3.scale.linear()
@@ -460,6 +456,50 @@ var labels = node.append("text").text(function(d) {
 		  			return d.name; 
 			  	});
 
+function dblclick() 
+{
+	//If node has been clicked earlier
+	if (this.clicked)
+	{
+		//"unclick"
+		this.clicked = false;
+		
+		//Change the node's color
+	    d3.select(this).select("circle").transition()
+	        .style("fill", "#ccc");
+	    
+	    clearInterval(this.timer1);
+	    clearInterval(this.timer2);
+	}
+	else
+	{
+		//Add the click attr to be node
+		this.clicked = true;
+		//Change the node's color
+	    var cir = d3.select(this).select("circle");
+		
+		this.timer1 = setInterval(function()
+				{
+					cir.transition().style("fill", "blue");
+					//alert('coloring red');
+				}, 500);
+
+		this.timer2 = setInterval(function()
+				{
+					cir.transition() .style("fill", "yellow");
+					//alert('yellow');
+				}, 1000);
+			
+	}
+	    
+//	    d3.select(this).select("text").transition()
+//	        .duration(750)
+//	        .attr("x", 12)
+//	        .style("stroke", "none")
+//	        .style("fill", "black")
+//	        .style("stroke", "none")
+//	        .style("font", "10px sans-serif");
+}
 
 // add the curvy lines
 function tick() {
@@ -475,7 +515,6 @@ function tick() {
             d.target.y;
     });
 
-    node
-        .attr("transform", function(d) {
+    node.attr("transform", function(d) {
 		    return "translate(" + d.x + "," + d.y + ")"; });
 };
