@@ -387,13 +387,14 @@ var  v = d3.scale.linear().range([0, 100]);
 // Scale the range of the data
 v.domain([0, d3.max(links, function(d) { return d.value; })]);
 
-
-var svg = d3.select("body").append("svg")
+var svg = d3.select("body")
+	.append("svg")
     .attr("width", width)
     .attr("height", height);
 
 // build the arrow.
-svg.append("svg:defs").selectAll("marker")
+svg.append("svg:defs")
+	.selectAll("marker")
     .data(["end"])      // Different link/path types can be defined here
     .enter().append("svg:marker")    // This section adds in the arrows
     .attr("id", String)
@@ -438,10 +439,20 @@ var node = svg.selectAll(".node")
     .attr("class", "node")
     .call(force.drag);
 
+//Scale for the node size
+var rScale = d3.scale.linear()
+					.domain([0, d3.max(force.nodes(), function(d) {
+						return d.weight; //TODO: fix this
+					})])
+					.range([2, 10]); //Radius btw [1,5]
+
 // add the nodes
 node.append("circle")
-    .attr("r", function (d){
-    	return d.weight;
+	//Size of the node
+    .attr("r", function (d)
+	{
+    	
+    	return rScale(d.weight);
     });
 
 //Append the labels to node
