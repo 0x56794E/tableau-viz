@@ -433,7 +433,51 @@ var node = svg.selectAll(".node")
     .enter().append("g")
     .attr("class", "node")
     .call(force.drag)
-    .on("dblclick", dblclick); //bind the db click handler
+    .on("dblclick", function (d) {
+    	//If node has been clicked earlier
+    	if (d.clicked)
+    	{
+    		//"unclick"
+    		d.clicked = false;
+
+    	    //Unpin the node
+    	    d.fixed = false;
+    	    
+    		//Change the node's color back
+    	    d3.select(this).select("circle").transition()
+    	        .style("fill", "#ccc");
+    	    
+    	    //Clear the blinking
+    	    clearInterval(d.timer1);
+    	    clearInterval(d.timer2);
+    	    
+    	}
+    	else
+    	{
+    		//Add the click attr to be node
+    		d.clicked = true;
+    		
+    		//Pin the node 
+    		d.fixed = true;
+    	
+    		//Change the node's color to make it blink
+    		//Set timer: turn blue every 0.5s and yellow every 1s
+    		var cir = d3.select(this).select("circle");
+    	    
+    		d.timer1 = setInterval(function()
+    				{
+    					cir.transition().style("fill", "blue");
+    					//alert('coloring red');
+    				}, 500);
+    
+    		d.timer2 = setInterval(function()
+    				{
+    					cir.transition() .style("fill", "yellow");
+    					//alert('yellow');
+    				}, 1000);
+    			
+    	}
+    }); 
 
 //Scale for the node size
 var rScale = d3.scale.linear()
@@ -456,50 +500,6 @@ var labels = node.append("text").text(function(d) {
 		  			return d.name; 
 			  	});
 
-function dblclick() 
-{
-	//If node has been clicked earlier
-	if (this.clicked)
-	{
-		//"unclick"
-		this.clicked = false;
-		
-		//Change the node's color
-	    d3.select(this).select("circle").transition()
-	        .style("fill", "#ccc");
-	    
-	    clearInterval(this.timer1);
-	    clearInterval(this.timer2);
-	}
-	else
-	{
-		//Add the click attr to be node
-		this.clicked = true;
-		//Change the node's color
-	    var cir = d3.select(this).select("circle");
-		
-		this.timer1 = setInterval(function()
-				{
-					cir.transition().style("fill", "blue");
-					//alert('coloring red');
-				}, 500);
-
-		this.timer2 = setInterval(function()
-				{
-					cir.transition() .style("fill", "yellow");
-					//alert('yellow');
-				}, 1000);
-			
-	}
-	    
-//	    d3.select(this).select("text").transition()
-//	        .duration(750)
-//	        .attr("x", 12)
-//	        .style("stroke", "none")
-//	        .style("fill", "black")
-//	        .style("stroke", "none")
-//	        .style("font", "10px sans-serif");
-}
 
 // add the curvy lines
 function tick() {
