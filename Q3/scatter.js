@@ -1,3 +1,19 @@
+// Load data from file
+var dataMap = []; //Key: name of species; Value: array of arrays
+d3.tsv("data.tsv", function (error, data) 
+{
+	data.forEach(function (d) {
+	
+		//If same species has been added before
+		if (!dataMap[d.Species]) 
+			dataMap[d.Species] = [];
+			
+		dataMap[d.Species].push([d.BodyMass, d.Distribution]);
+		
+	});
+});
+
+//Charts
 var w = 600;
 var h = 500;
 var svg = d3.select("body")
@@ -5,64 +21,37 @@ var svg = d3.select("body")
 			.attr("width", w)
 			.attr("height", h);
 
-//**** CHART 1 ******
 
-//Data set 
-var dataset1 = 
-	[
-		[5, 20], [480, 90], [250, 50], [100, 33], [330, 95],
-        [410, 12], [475, 44], [25, 67], [85, 21], [220, 88]
-	];
+//Chart 1 - Lagomorpha (red circle)
+var lagoData = svg.selectAll("circle").data(dataMap['Lagomorpha']);
 
-svg.selectAll("rect")
-	.data(dataset1)
-	.enter()
-	.append("rect")
+lagoData.enter()
+	.append("circle")
 	.attr("stroke", "red")
 	.attr("fill", "white")
-	.attr("x", function(d){
-		return d[0];
-	})
-	.attr("y", function(d){
-		return d[1];
-	})
-	.attr("width", 10)
-	.attr("height", 10);
-
-
-//****** CHART 2 ******
-//Data set
-var dataset2 = 
-	[
-		[0, 0], [10, 10], [40, 50], [520, 33], [130, 95],
-        [400, 120], [405, 440], [230, 100], [618, 20], [20, 98]
-	];
-
-svg.selectAll("circle")
-	.data(dataset2)
-	.enter()
-	.append("circle")
-	.attr("stroke", "green")
-	.attr("fill", "white")
 	.attr("cx", function (d) {
-		return d[0];
+		return d[1];
 	})
 	.attr("cy", function (d) {
-		return d[1];
+		return d[0];
 	})
-	.attr("r", 10);
+	.attr("r", 2);
 
+console.log("done chart 1");
 
-//******** CHART 3 **********
-// Read from file
-var datamap = []; //Key: name of species; Value: array of arrays
-d3.tsv("data.tsv", function (error, data) 
-{
-	data.forEach(function (d) {
-		console.log("BodyMass = " + d.BodyMass);
-		console.log("| Species = " + d.Species);
-		console.log("| Distribution = " + d.Distribution);
-		console.log("\n");
-	});
-	console.log("\n");
-});
+////Chart 2 - Didelphimorphia (blue square)
+//svg.selectAll("square")
+//	.data(dataMap['Didelphimorphia'])
+//	.enter()
+//	.append("square")
+//	.attr("stroke", "blue")
+//	.attr("fill", "white")
+//	.attr("x", function (d) {
+//		return d[1];
+//	})
+//	.attr("y", function (d) {
+//		return d[0];
+//	})
+//	.attr("width", 2);
+
+//Chart 3 - Dasyuromorphia (green triangle)
