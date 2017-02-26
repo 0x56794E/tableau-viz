@@ -6,40 +6,45 @@ d3.tsv("data.tsv", function (error, data)
 	
 		//If same species has been added before
 		if (!dataMap[d.Species]) 
+		{
+			//console.log("Creating empty array for species " + d.Species);
 			dataMap[d.Species] = [];
+		}
 			
 		dataMap[d.Species].push([d.BodyMass, d.Distribution]);
+		console.log('Pushing pair to array ' + d.Species + ": " + [parseFloat(d.BodyMass), parseFloat(d.Distribution)]);
 		
 	});
+	
+	
+	//Charts
+	var w = 600;
+	var h = 500;
+	var svg = d3.select("body")
+				.append("svg")
+				.attr("width", w)
+				.attr("height", h);
+
+	//Chart 1 - Lagomorpha (red circle)
+	var lagoData = svg.selectAll("circle").data(dataMap['Lagomorpha']);
+	lagoData.enter()
+		.append("circle")
+		.attr("stroke", "red")
+		.attr("fill", "white")
+		.attr("cx", function (d) {
+			return d[1];
+		})
+		.attr("cy", function (d) {
+			return d[0];
+		})
+		.attr("r", 2);
+
+	console.log("done chart 1");
 });
 
-//Charts
-var w = 600;
-var h = 500;
-var svg = d3.select("body")
-			.append("svg")
-			.attr("width", w)
-			.attr("height", h);
 
 
-//Chart 1 - Lagomorpha (red circle)
-var lagoData = svg.selectAll("circle").data(dataMap['Lagomorpha']);
-
-lagoData.enter()
-	.append("circle")
-	.attr("stroke", "red")
-	.attr("fill", "white")
-	.attr("cx", function (d) {
-		return d[1];
-	})
-	.attr("cy", function (d) {
-		return d[0];
-	})
-	.attr("r", 2);
-
-console.log("done chart 1");
-
-////Chart 2 - Didelphimorphia (blue square)
+//Chart 2 - Didelphimorphia (blue square)
 //svg.selectAll("square")
 //	.data(dataMap['Didelphimorphia'])
 //	.enter()
