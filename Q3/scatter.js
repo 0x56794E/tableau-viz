@@ -45,12 +45,12 @@ d3.tsv("data.tsv", function (error, data)
 	var xAxis = d3.svg.axis()
 					  .scale(xScale)
 					  .orient("bottom")
-					  .ticks(5000);
+					  .ticks(5);
 	
 	var yAxis = d3.svg.axis()
 					 .scale(yScale)
 					 .orient("left")
-					 .ticks(0.5);
+					 .ticks(5);
 
 	//Create the chart
 	var svg = d3.select("body")
@@ -83,13 +83,13 @@ d3.tsv("data.tsv", function (error, data)
 	.attr("stroke", "blue")
 	.attr("fill", "none")
 	.attr("x", function (d) {
-		return xScale(d[0]) - 3.5;
+		return xScale(d[0]) - 3;
 	})
 	.attr("y", function (d) {
-		return yScale(d[1]) - 3.5;
+		return yScale(d[1]) - 3;
 	})
-	.attr("width", 7)
-	.attr("height", 7);
+	.attr("width", 6)
+	.attr("height", 6);
 
 	//Chart 3 - Dasyuromorphia (green triangle)
 	svg.selectAll("polygon")
@@ -120,10 +120,3 @@ d3.tsv("data.tsv", function (error, data)
 		.attr("transform", "translate(" + padding + ",0)")
 		.call(yAxis);
 });
-
-
-
-
-"30.722500000000004 504.375" +
-"30.790499999999998 111.51785714285717" +
-"30.7565 111.51785714285717"
