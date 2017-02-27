@@ -103,7 +103,7 @@ d3.tsv("data.tsv", function (error, data)
 				var scaledY = yScale(d[1]);
 				
 				var pts =  (scaledX - 2) + ' ' + (scaledY - 2) 
-					+ ',' + (scaledX + 2) + ' ' + (scaledY + 2)
+					+ ',' + (scaledX + 2) + ' ' + (scaledY - 2)
 					+ ',' + scaledX + ' ' + (scaledY + 2); 
 				return pts;
 			});       
