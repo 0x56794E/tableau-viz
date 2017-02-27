@@ -83,15 +83,15 @@ d3.tsv("data.tsv", function (error, data)
 	.attr("stroke", "blue")
 	.attr("fill", "none")
 	.attr("x", function (d) {
-		return xScale(d[0]);
+		return xScale(d[0]) - 3.5;
 	})
 	.attr("y", function (d) {
-		return yScale(d[1]);
+		return yScale(d[1]) - 3.5;
 	})
-	.attr("width", 4)
-	.attr("height", 4);
+	.attr("width", 7)
+	.attr("height", 7);
 
-//	//Chart 3 - Dasyuromorphia (green triangle)
+	//Chart 3 - Dasyuromorphia (green triangle)
 	svg.selectAll("polygon")
 		.data(dataMap['Dasyuromorphia'])
 		.enter()
@@ -102,9 +102,9 @@ d3.tsv("data.tsv", function (error, data)
 				var scaledX = xScale(d[0]);
 				var scaledY = yScale(d[1]);
 				
-				var pts =  (scaledX - 2) + ' ' + (scaledY - 2) 
-					+ ',' + (scaledX + 2) + ' ' + (scaledY - 2)
-					+ ',' + scaledX + ' ' + (scaledY + 2); 
+				var pts =  (scaledX - 3) + ' ' + (scaledY + 3) 
+					+ ',' + (scaledX + 3) + ' ' + (scaledY + 3)
+					+ ',' + scaledX + ' ' + (scaledY - 3); 
 				return pts;
 			});       
 
