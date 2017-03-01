@@ -15,6 +15,7 @@ var xStep = 1;
 var yStep = 1;
 
 var datamap = []; //key: zip code, value: array of buckets
+var options = []; //contains the available zip codes - whatever works!
 var svg = d3.select("body").append("svg")
 			.attr("width", width + margin.left + margin.right)
 			.attr("height", height + margin.top + margin.bottom)
@@ -26,7 +27,10 @@ d3.csv("heatmap.csv", function (error, lines)
 	lines.forEach(function (d)
 	{
 		if (!datamap[d["Zip Code"]])
+		{
 			datamap[d["Zip Code"]] = [];
+			options.push(d["Zip Code"]);
+		}
 		
 		//Coerce data to num type
 		datamap[d["Zip Code"]].push(
