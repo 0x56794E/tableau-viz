@@ -7,7 +7,9 @@ var formatDate = d3.time.format("%b");
 
 var x = d3.scale.linear().range([0, width]);
 var y = d3.scale.linear().range([height, 0]);
-var z = d3.scale.linear().range(["white", "red"]);
+
+var z = d3.scale.linear()
+	.range(["beige", "red"]); //Color scale
 
 var xStep = 1;
 var yStep = 1;
@@ -44,9 +46,13 @@ d3.csv("heatmap.csv", function (error, lines)
 	y.domain(d3.extent(buckets, function(d) {
 		return d.Year; 
 		}));
-	z.domain([0, d3.max(buckets, function(d) {
-		return d.Power;
-		})]);
+	
+	z.domain([d3.min(buckets, function (d) {
+				return d.Power;
+			  }), 
+			  d3.max(buckets, function(d) {
+				return d.Power;
+			  })]);
 
 	// Extend the x and y dom 
 	x.domain([x.domain()[0], +x.domain()[1] + xStep]);
@@ -67,7 +73,7 @@ d3.csv("heatmap.csv", function (error, lines)
 	
 	//Add a legend for color values
 	var legend = svg.selectAll(".legend")
-					.data(z.ticks(8).slice(1).reverse())
+					.data(z.ticks(6).slice(1).reverse())
 					.enter().append("g")
 					.attr("class", "legend")
 					.attr("transform", function (d, i) { 
