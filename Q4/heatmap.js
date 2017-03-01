@@ -146,5 +146,7 @@ d3.csv("heatmap.csv", function (error, lines)
 						.append("option")
 							.text(function (d) {return d;});
 	
-	select.value("90077");
+	//event stuff
+	select.on("change")();
+	
 });
