@@ -68,13 +68,16 @@
 		
 		// load the data
 		d3.json("sankey-formatted.json", function(error, graph) {
-		
+		  //Specify links and nodes here
 		  sankey
 		      .nodes(graph.nodes)
 		      .links(graph.links)
 		      .layout(32);
+		  
+		  //TODO: for our case => construct the links
+		  //from data
 		
-		// add in the links
+		// add in the links	
 		  var link = svg.append("g").selectAll(".link")
 		      .data(graph.links)
 		    .enter().append("path")
