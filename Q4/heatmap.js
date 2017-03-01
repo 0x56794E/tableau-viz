@@ -2,40 +2,61 @@ var margin = {top: 20, right: 90, bottom: 30, left: 50};
 var width = 960 - margin.left - margin.right;
 var height = 500 - margin.top - margin.bottom;
 
-var parseDate = d3.time.format("%Y-%m-%d").parse;
-var formatDate = d3.time.format("%b %d");
+var parseDate = d3.time.format("%m").parse;
+var formatDate = d3.time.format("%b");
 
 var x = d3.time.scale().range([0, width]);
 var y = d3.scale.linear().range([height, 0]);
-var z = d3.scale.linear().range(["white", "steelblue"]);
+var z = d3.scale.linear().range(["white", "red"]);
 
-var xStep = 864e5;
-var yStep = 100;
+//var xStep = 864e5;
+//var yStep = 100;
 
+var datamap = []; //key: zip code, value: array of buckets
 var svg = d3.select("body").append("svg")
 			.attr("width", width + margin.left + margin.right)
 			.attr("height", height + margin.top + margin.bottom)
 			.append("g")
 			.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-d3.csv("test.csv", function (error, buckets) {
-	
-	//Coerce data to appropriate types
-	buckets.forEach(function (d) {
-		d.date = parseDate(d.date);
-		d.bucket = +d.bucket;
-		d.count = +d.count;
+d3.csv("heatmap.csv", function (error, lines) 
+{
+	lines.forEach(function (d)
+	{
+		if (!datamap[d["Zip Code"]])
+			datamap[d["Zip Code"]] = [];
+		
+		datamap[d["Zip Code"]].push(
+				{
+					Month: parseDate(d.Month), 
+					Year: +d.Year,
+					Power: +d.Power
+				});
 	});
+	
+	var buckets = datamap["90077"];
+	//Coerce data to appropriate types
+//	buckets.forEach(function (d) {
+//		d.date = parseDate(d.date);
+//		d.bucket = +d.bucket;
+//		d.count = +d.count;
+//	});
 	
 	
 	//Comp the scale domains
-	x.domain(d3.extent(buckets, function(d) { return d.date;}));
-	y.domain(d3.extent(buckets, function(d) { return d.bucket; }));
-	z.domain([0, d3.max(buckets, function(d) { return d.count; })]);
+	x.domain(d3.extent(buckets, function(d) {
+		return d.Month;
+		}));
+	y.domain(d3.extent(buckets, function(d) {
+		return d.Year; 
+		}));
+	z.domain([0, d3.max(buckets, function(d) {
+		return d.Power;
+		})]);
 
 	// Extend the x and y dom 
-	x.domain([x.domain()[0], +x.domain()[1] + xStep]);
-	y.domain([y.domain()[0], y.domain()[1] + yStep]);
+//	x.domain([x.domain()[0], +x.domain()[1] + xStep]);
+//	y.domain([y.domain()[0], y.domain()[1] + yStep]);
 	
 	//Show tiles for non-zero
 	svg.selectAll(".tile")
@@ -43,11 +64,11 @@ d3.csv("test.csv", function (error, buckets) {
 		.enter()
 		.append("rect")
 		.attr("class", "tile")
-		.attr("x", function (d) { return x(d.date); })
-		.attr("y", function (d) { return y(d.bucket + yStep); })
-		.attr("width", x(xStep) - x(0))
-		.attr("height", y(0) - y(yStep))
-		.style("fill", function (d) { return z(d.count); });
+		.attr("x", function (d) { return x(d.Month); })
+		.attr("y", function (d) { return y(d.Year); })
+		.attr("width", x(100))
+		.attr("height", y(100))
+		.style("fill", function (d) { return z(d.Power); });
 	
 	//Add a legend for color values
 	var legend = svg.selectAll(".legend")
