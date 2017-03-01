@@ -5,12 +5,12 @@ var height = 500 - margin.top - margin.bottom;
 var parseDate = d3.time.format("%m").parse;
 var formatDate = d3.time.format("%b");
 
-var x = d3.time.scale().range([0, width]);
+var x = d3.scale.linear().range([0, width]);
 var y = d3.scale.linear().range([height, 0]);
 var z = d3.scale.linear().range(["white", "red"]);
 
-//var xStep = 864e5;
-//var yStep = 100;
+var xStep = 1;
+var yStep = 1;
 
 var datamap = []; //key: zip code, value: array of buckets
 var svg = d3.select("body").append("svg")
@@ -26,22 +26,16 @@ d3.csv("heatmap.csv", function (error, lines)
 		if (!datamap[d["Zip Code"]])
 			datamap[d["Zip Code"]] = [];
 		
+		//Coerce data to num type
 		datamap[d["Zip Code"]].push(
 				{
-					Month: parseDate(d.Month), 
+					Month: +d.Month, 
 					Year: +d.Year,
 					Power: +d.Power
 				});
 	});
 	
 	var buckets = datamap["90077"];
-	//Coerce data to appropriate types
-//	buckets.forEach(function (d) {
-//		d.date = parseDate(d.date);
-//		d.bucket = +d.bucket;
-//		d.count = +d.count;
-//	});
-	
 	
 	//Comp the scale domains
 	x.domain(d3.extent(buckets, function(d) {
@@ -55,8 +49,8 @@ d3.csv("heatmap.csv", function (error, lines)
 		})]);
 
 	// Extend the x and y dom 
-//	x.domain([x.domain()[0], +x.domain()[1] + xStep]);
-//	y.domain([y.domain()[0], y.domain()[1] + yStep]);
+	x.domain([x.domain()[0], +x.domain()[1] + xStep]);
+	y.domain([y.domain()[0], y.domain()[1] + yStep]);
 	
 	//Show tiles for non-zero
 	svg.selectAll(".tile")
@@ -65,14 +59,15 @@ d3.csv("heatmap.csv", function (error, lines)
 		.append("rect")
 		.attr("class", "tile")
 		.attr("x", function (d) { return x(d.Month); })
-		.attr("y", function (d) { return y(d.Year); })
-		.attr("width", x(100))
-		.attr("height", y(100))
-		.style("fill", function (d) { return z(d.Power); });
+		.attr("y", function (d) { return y(d.Year + yStep); })
+		.attr("width", x(xStep) - x(0))
+		.attr("height", y(0) - y(yStep))
+		.style("fill", function (d) { return z(d.Power); })
+		.style("stroke", "white");
 	
 	//Add a legend for color values
 	var legend = svg.selectAll(".legend")
-					.data(z.ticks(6).slice(1).reverse())
+					.data(z.ticks(8).slice(1).reverse())
 					.enter().append("g")
 					.attr("class", "legend")
 					.attr("transform", function (d, i) { 
@@ -82,6 +77,7 @@ d3.csv("heatmap.csv", function (error, lines)
 	legend.append("rect")
     .attr("width", 20)
     .attr("height", 20)
+    .style("stroke", "white")
     .style("fill", z);
 
 	legend.append("text")
@@ -95,13 +91,13 @@ d3.csv("heatmap.csv", function (error, lines)
 	    .attr("x", width + 20)
 	    .attr("y", 10)
 	    .attr("dy", ".35em")
-	    .text("Count");
+	    .text("kWh");
 	
 	// Add an x-axis with label.
 	  svg.append("g")
 	      .attr("class", "x axis")
 	      .attr("transform", "translate(0," + height + ")")
-	      .call(d3.svg.axis().scale(x).ticks(d3.time.days).tickFormat(formatDate).orient("bottom"))
+	      .call(d3.svg.axis().scale(x).orient("bottom"))
 	    .append("text")
 	      .attr("class", "label")
 	      .attr("x", width)
