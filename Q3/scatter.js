@@ -45,11 +45,17 @@ d3.tsv("data.tsv", function (error, data)
 	//Set up the axes
 	var xAxis = d3.svg.axis()
 					  .scale(xScale)
+					  .innerTickSize(2 * padding - h)
+					  .outerTickSize(0)
+					  .tickPadding(10)
 					  .orient("bottom")
 					  .ticks(5);
 	
 	var yAxis = d3.svg.axis()
 					 .scale(yScale)
+					 .innerTickSize(3 * padding - w)
+					 .outerTickSize(0)
+					 .tickPadding(10)
 					 .orient("left")
 					 .ticks(5);
 
