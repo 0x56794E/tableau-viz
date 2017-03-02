@@ -123,21 +123,45 @@ d3.tsv("data.tsv", function (error, data)
 				.attr("stroke", "red")
 				.attr("transform", function(d) { return "translate(" + xScale(d[0]) + "," + yScale(d[1]) + ")"; });
 
-	//TODO: legend:
-	//Loop thru datamap
+	//TODO: make this smarter:
 	var legend = d3.select("#chart1")
 					.append("svg")
 						.attr("class", "legend")
 						.attr("width", w/2)
 						.attr("height", h)
-					.append("rect")
-					.attr("width", "20")
-					.attr("height", "20")
-					.attr("stroke", "blue")
-					.attr("fill", "none")
-					.text("hello");
+						.attr("transform", "translate(" + padding + "," + padding + ")");
 	
+	var redCircle = legend.append("g");
+	redCircle.append("path")
+				.attr("d", d3.svg.symbol().type("circle"))
+				.attr("fill", "none")
+				.attr("stroke", "red");
+	redCircle.append("text")
+				.text("Lagomorpha")
+				.attr("x", 10)
+				.attr("y", 5);
 	
+	var blueSq = legend.append("g").
+					attr("transform", "translate(0, 20)");
+	blueSq.append("path")
+				.attr("d", d3.svg.symbol().type("square"))
+				.attr("fill", "none")
+				.attr("stroke", "blue");
+	blueSq.append("text")
+				.text("Didelphimorphia")
+				.attr("x", 10)
+				.attr("y", 5);
+	
+	var greenTria = legend.append("g").
+					attr("transform", "translate(0, 40)");
+	greenTria.append("path")
+				.attr("d", d3.svg.symbol().type("triangle-up"))
+				.attr("fill", "none")
+				.attr("stroke", "green");
+	blueSq.append("text")
+				.text("Dasyuromorphia")
+				.attr("x", 10)
+				.attr("y", 25);
 	//*************************
 	//Chart #2 - Log scale *
 	//*************************
