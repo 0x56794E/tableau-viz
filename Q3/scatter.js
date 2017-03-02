@@ -119,13 +119,26 @@ d3.tsv("data.tsv", function (error, data)
 				return pts;
 			});       
 
+	//TODO: legend:
+	//Loop thru datamap
+	var legend = svg.selectAll(".legend")
+					.data(["Lagomorpha", "Didelphimorphia", "Dasyuromorphia"])
+					.enter().append("g")
+					.attr("class", "legend")
+					.attr("transform", function (d, i) { 
+						return "translate(0," + (20 + i * 20) + ")"; 
+										});
 	
+	legend.append("text")
+			.attr("x", 26)
+			.attr("y", 10)
+			.attr("dy", ".35em")
+			.text(String);
 	
-
-
 	//*************************
 	//Chart #2 - Log scale *
 	//*************************
+	/*
 	var xLogScale = d3.scale.log()
 							.clamp(true)
 							.domain([0.1, maxX])
@@ -205,5 +218,6 @@ d3.tsv("data.tsv", function (error, data)
 							+ ' ' + (scaledY - 3);
 					return pts;
 				});       
+				*/
 
 });
