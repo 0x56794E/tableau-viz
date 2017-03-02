@@ -14,16 +14,22 @@ d3.tsv("data.tsv", function (error, data)
 	});
 	
 	var w = 750;
-	var h = 300;
+	var h = 400;
 	var padding = 30;
 	
 	//*************************
 	//Chart #1 - Linear scale *
 	//*************************	
 	//Scale
-	//Calc maxX and maxY
+	//Calc maxX and maxY (and min)
 	var maxX = d3.max([dataMap['Lagomorpha'], dataMap['Didelphimorphia'], dataMap['Dasyuromorphia']].map(function (array) {
 		return d3.max(array, function (d) {
+			return d[0];
+		})
+	}));
+	
+	var minX = d3.min([dataMap['Lagomorpha'], dataMap['Didelphimorphia'], dataMap['Dasyuromorphia']].map(function (array) {
+		return d3.min(array, function (d) {
 			return d[0];
 		})
 	}));
@@ -34,12 +40,19 @@ d3.tsv("data.tsv", function (error, data)
 		})
 	}))
 	
+	var minY = d3.min([dataMap['Lagomorpha'], dataMap['Didelphimorphia'], dataMap['Dasyuromorphia']].map(function (array) {
+		return d3.min(array, function (d) {
+			return d[1];
+		})
+	}))
+	
+	
 	var xScale = d3.scale.linear()
-						.domain([0, maxX])
+						.domain([minY, maxX])
 						.range([padding, w - padding * 2]);
 	
 	var yScale = d3.scale.linear()
-						 .domain([0, maxY])
+						 .domain([minY, maxY])
 						 .range([h - padding, padding]);
 	
 	//Set up the axes
@@ -57,7 +70,7 @@ d3.tsv("data.tsv", function (error, data)
 					 .outerTickSize(0)
 					 .tickPadding(10)
 					 .orient("left")
-					 .ticks(5);
+					 .ticks(7);
 
 	//Create the chart
 	var svg = d3.select("#chart1")
@@ -76,19 +89,17 @@ d3.tsv("data.tsv", function (error, data)
 		.attr("transform", "translate(" + padding + ",0)")
 		.call(yAxis);
 	
-	
-	//Line 1 - Lagomorpha (red circle)
+	//ADD backwards for z-index issue
+	//Line 3 - Dasyuromorphia (green triangle)
 	svg.append("g")
 		.selectAll("path")
-		.data(dataMap['Lagomorpha'])
+		.data(dataMap['Dasyuromorphia'])
 		.enter()
 			.append("path")
-				.attr("d", d3.svg.symbol().type("circle"))
+				.attr("d", d3.svg.symbol().type("triangle-up"))
 				.attr("fill", "none")
-				.attr("stroke", "red")
+				.attr("stroke", "green")
 				.attr("transform", function(d) { return "translate(" + xScale(d[0]) + "," + yScale(d[1]) + ")"; });
-
-
 	
 	//Line 2 (new)
 	svg.append("g")
@@ -101,15 +112,15 @@ d3.tsv("data.tsv", function (error, data)
 				.attr("stroke", "blue")
 				.attr("transform", function(d) { return "translate(" + xScale(d[0]) + "," + yScale(d[1]) + ")"; });
 
-	//Line 3 - Dasyuromorphia (green triangle)
+	//Line 1 - Lagomorpha (red circle)
 	svg.append("g")
 		.selectAll("path")
-		.data(dataMap['Dasyuromorphia'])
+		.data(dataMap['Lagomorpha'])
 		.enter()
 			.append("path")
-				.attr("d", d3.svg.symbol().type("triangle-up"))
+				.attr("d", d3.svg.symbol().type("circle"))
 				.attr("fill", "none")
-				.attr("stroke", "green")
+				.attr("stroke", "red")
 				.attr("transform", function(d) { return "translate(" + xScale(d[0]) + "," + yScale(d[1]) + ")"; });
 
 	//TODO: legend:
@@ -124,39 +135,37 @@ d3.tsv("data.tsv", function (error, data)
 					.attr("height", "20")
 					.attr("stroke", "blue")
 					.attr("fill", "none")
-					.text("hello")
-//					.append(function (d) {
-//						console.log("in d");
-//						return "g";
-//					})
-//					
-//					.attr("class", "legend")
-//					.attr("transform", function (d, i) { 
-//						return "translate(0," + (20 + i * 20) + ")"; 
-//										})
-					;
+					.text("hello");
 	
 	
 	//*************************
 	//Chart #2 - Log scale *
 	//*************************
-	/*
 	var xLogScale = d3.scale.log()
 							.clamp(true)
-							.domain([0.1, maxX])
+							.domain([minX, maxX])
 							.range([ padding, w - padding * 2 ])
 							.nice();
 
 	var yLogScale = d3.scale.log()
 							.clamp(true)
-							.domain([0.1, maxY])
+							.domain([minY, maxY])
 							.range([ h - padding, padding ])
 							.nice();
 
 	//Set up the axes
-	var xAxisLog = d3.svg.axis().scale(xLogScale).orient("bottom").ticks(5);
+	var xAxisLog = d3.svg.axis()
+						.scale(xLogScale)
+						.orient("bottom")
+						.innerTickSize(2 * padding - h)
+						.outerTickSize(0)
+						.tickPadding(10)
+						.ticks(5);
 
-	var yAxisLog = d3.svg.axis().scale(yLogScale).orient("left").ticks(5);
+	var yAxisLog = d3.svg.axis()
+						.scale(yLogScale)
+						.orient("left")
+						.ticks(5);
 
 	//Create the chart
 	var svgLog = d3.select("#chart2")
@@ -176,50 +185,39 @@ d3.tsv("data.tsv", function (error, data)
 			.call(yAxisLog);
 
 	//Line 1 - Lagomorpha (red circle)
-	svgLog.selectAll("circle")
-			.data(dataMap['Lagomorpha'])
-			.enter()
-			.append("circle")
+	svgLog.append("g")
+		.selectAll("path")
+		.data(dataMap['Lagomorpha'])
+		.enter()
+			.append("path")
+				.attr("d", d3.svg.symbol().type("circle"))
+				.attr("fill", "none")
 				.attr("stroke", "red")
-				.attr("fill", "white")
-				.attr("cx", function(d) {
-					return xLogScale(d[0]);
-						})
-				.attr("cy", function(d) {
-					return yLogScale(d[1]);
-				})
-				.attr("r", 4);
+				.attr("transform", function(d) { return "translate(" + xLogScale(d[0]) + "," + yLogScale(d[1]) + ")"; });
 
 	//Line 2 - Didelphimorphia (blue square)
-	svgLog.selectAll("rect")
-			.data(dataMap['Didelphimorphia'])
-			.enter()
-			.append("rect")
+	svgLog.append("g")
+		.selectAll("path")
+		.data(dataMap['Didelphimorphia'])
+		.enter()
+			.append("path")
+				.attr("d", d3.svg.symbol().type("square"))
+				.attr("fill", "none")
 				.attr("stroke", "blue")
-				.attr("fill", "none").attr("x", function(d) {
-					return xLogScale(d[0]) - 3;
-					})
-				.attr("y", function(d) {
-					return yLogScale(d[1]) - 3;
-					})
-				.attr("width", 6).attr("height", 6);
+				.attr("transform", function(d) { return "translate(" + xLogScale(d[0]) + "," + yLogScale(d[1]) + ")"; });
+
 
 	//Line 3 - Dasyuromorphia (green triangle)
-	svgLog.selectAll("polygon")
-			.data(dataMap['Dasyuromorphia'])
-			.enter()
-			.append("polygon")
+	svgLog.append("g")
+		.selectAll("path")
+		.data(dataMap['Dasyuromorphia'])
+		.enter()
+			.append("path")
+				.attr("d", d3.svg.symbol().type("triangle-up"))
 				.attr("fill", "none")
 				.attr("stroke", "green")
-				.attr("points", function(d) {
-					var scaledX = xLogScale(d[0]);
-					var scaledY = yLogScale(d[1]);
-	
-					var pts = (scaledX - 3) + ' ' + (scaledY + 3) + ','
-							+ (scaledX + 3) + ' ' + (scaledY + 3) + ',' + scaledX
-							+ ' ' + (scaledY - 3);
-					return pts;
-				});       
-				*/
+				.attr("transform", function(d) { return "translate(" + xLogScale(d[0]) + "," + yLogScale(d[1]) + ")"; });
+
+
 
 });
