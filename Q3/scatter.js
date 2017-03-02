@@ -242,6 +242,45 @@ d3.tsv("data.tsv", function (error, data)
 				.attr("stroke", "green")
 				.attr("transform", function(d) { return "translate(" + xLogScale(d[0]) + "," + yLogScale(d[1]) + ")"; });
 
+	//TODO: make this smarter:
+	var legend2 = d3.select("#chart2")
+					.append("svg")
+						.attr("class", "legend")
+						.attr("width", w/2)
+						.attr("height", h)
+						.attr("transform", "translate(" + padding + "," + padding + ")");
+	
+	var redCircle2 = legend2.append("g");
+	redCircle2.append("path")
+				.attr("d", d3.svg.symbol().type("circle"))
+				.attr("fill", "none")
+				.attr("stroke", "red");
+	redCircle2.append("text")
+				.text("Lagomorpha")
+				.attr("x", 10)
+				.attr("y", 5);
+	
+	var blueSq2 = legend2.append("g").
+					attr("transform", "translate(0, 20)");
+	blueSq2.append("path")
+				.attr("d", d3.svg.symbol().type("square"))
+				.attr("fill", "none")
+				.attr("stroke", "blue");
+	blueSq2.append("text")
+				.text("Didelphimorphia")
+				.attr("x", 10)
+				.attr("y", 5);
+	
+	var greenTria2 = legend2.append("g").
+					attr("transform", "translate(0, 40)");
+	greenTria2.append("path")
+				.attr("d", d3.svg.symbol().type("triangle-up"))
+				.attr("fill", "none")
+				.attr("stroke", "green");
+	blueSq2.append("text")
+				.text("Dasyuromorphia")
+				.attr("x", 10)
+				.attr("y", 25);
 
 
 });
