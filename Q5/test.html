@@ -74,6 +74,27 @@
 		      .links(graph.links)
 		      .layout(32);
 		  
+		  
+		  //Test using d3.nets
+		  d3.nest().key(function (d) {
+			  return d.data;
+			  
+		  }).entries(csv_data);
+		  
+		  //Need: race -> driver -> team
+		  //Line format: driver -> team -> pts
+		  d3.csv("teams.csv", function (error, races) {
+			  
+			  //Line format: driver -> race -> pts
+			  d3.csv("races.csv", function (error, races) {
+				 
+				  
+			  });
+			  
+			  
+		  });
+		  
+		  
 		  //TODO: for our case => construct the links
 		  //from data
 		
