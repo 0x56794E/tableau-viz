@@ -103,37 +103,53 @@ d3.tsv("data.tsv", function (error, data)
 	.attr("height", 6);
 
 	//Line 3 - Dasyuromorphia (green triangle)
-	svg.selectAll("polygon")
+	svg.selectAll("path")
 		.data(dataMap['Dasyuromorphia'])
 		.enter()
-			.append("polygon")
+			.append("path")
+			.attr("d", d3.svg.symbol().type("triangle-up"))
 			.attr("fill", "none")
 			.attr("stroke", "green")
-			.attr("points", function (d) {
-				var scaledX = xScale(d[0]);
-				var scaledY = yScale(d[1]);
-				
-				var pts =  (scaledX - 3) + ' ' + (scaledY + 3) 
-					+ ',' + (scaledX + 3) + ' ' + (scaledY + 3)
-					+ ',' + scaledX + ' ' + (scaledY - 3); 
-				return pts;
-			});       
+			.attr("transform", function(d) { return "translate(" + xScale(d[0]) + "," + yScale(d[1]) + ")"; });
+	
+//			.append("polygon")
+//			.attr("fill", "none")
+//			.attr("stroke", "green")
+//			.attr("points", function (d) {
+//				var scaledX = xScale(d[0]);
+//				var scaledY = yScale(d[1]);
+//				
+//				var pts =  (scaledX - 3) + ' ' + (scaledY + 3) 
+//					+ ',' + (scaledX + 3) + ' ' + (scaledY + 3)
+//					+ ',' + scaledX + ' ' + (scaledY - 3); 
+//				return pts;
+//			})
+//			;       
+	
+	
 
 	//TODO: legend:
 	//Loop thru datamap
 	var legend = svg.selectAll(".legend")
-					.data(["Lagomorpha", "Didelphimorphia", "Dasyuromorphia"])
-					.enter().append("g")
+					.append("g")
 					.attr("class", "legend")
-					.attr("transform", function (d, i) { 
-						return "translate(0," + (20 + i * 20) + ")"; 
-										});
+					.append("rect")
+					.attr("width", "20")
+					.attr("height", "20")
+					.attr("stroke", "blue")
+					.attr("fill", "none")
+					.text("hello")
+//					.append(function (d) {
+//						console.log("in d");
+//						return "g";
+//					})
+//					
+//					.attr("class", "legend")
+//					.attr("transform", function (d, i) { 
+//						return "translate(0," + (20 + i * 20) + ")"; 
+//										})
+					;
 	
-	legend.append("text")
-			.attr("x", 26)
-			.attr("y", 10)
-			.attr("dy", ".35em")
-			.text(String);
 	
 	//*************************
 	//Chart #2 - Log scale *
