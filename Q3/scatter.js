@@ -13,8 +13,8 @@ d3.tsv("data.tsv", function (error, data)
 		dataMap[d.Species].push([parseFloat(d.BodyMass), parseFloat(d.Distribution)]);
 	});
 	
-	var w = 600;
-	var h = 500;
+	var w = 750;
+	var h = 300;
 	var padding = 30;
 	
 	//*************************
@@ -54,7 +54,7 @@ d3.tsv("data.tsv", function (error, data)
 					 .ticks(5);
 
 	//Create the chart
-	var svg = d3.select("body")
+	var svg = d3.select("#chart1")
 				.append("svg")
 				.attr("width", w)
 				.attr("height", h);
@@ -72,67 +72,47 @@ d3.tsv("data.tsv", function (error, data)
 	
 	
 	//Line 1 - Lagomorpha (red circle)
-	svg.selectAll("circle")
+	svg.append("g")
+		.selectAll("path")
 		.data(dataMap['Lagomorpha'])
 		.enter()
-		.append("circle")
-		.attr("stroke", "red")
-		.attr("fill", "white")
-		.attr("cx", function (d) {
-			return xScale(d[0]);
-		})
-		.attr("cy", function (d) {
-			return yScale(d[1]);
-		})
-		.attr("r", 4);
+			.append("path")
+				.attr("d", d3.svg.symbol().type("circle"))
+				.attr("fill", "none")
+				.attr("stroke", "red")
+				.attr("transform", function(d) { return "translate(" + xScale(d[0]) + "," + yScale(d[1]) + ")"; });
+
+
 	
-	//Line 2 - Didelphimorphia (blue square)
-	svg.selectAll("rect")
-	.data(dataMap['Didelphimorphia'])
-	.enter()
-	.append("rect")
-	.attr("stroke", "blue")
-	.attr("fill", "none")
-	.attr("x", function (d) {
-		return xScale(d[0]) - 3;
-	})
-	.attr("y", function (d) {
-		return yScale(d[1]) - 3;
-	})
-	.attr("width", 6)
-	.attr("height", 6);
+	//Line 2 (new)
+	svg.append("g")
+		.selectAll("path")
+		.data(dataMap['Didelphimorphia'])
+		.enter()
+			.append("path")
+				.attr("d", d3.svg.symbol().type("square"))
+				.attr("fill", "none")
+				.attr("stroke", "blue")
+				.attr("transform", function(d) { return "translate(" + xScale(d[0]) + "," + yScale(d[1]) + ")"; });
 
 	//Line 3 - Dasyuromorphia (green triangle)
-	svg.selectAll("path")
+	svg.append("g")
+		.selectAll("path")
 		.data(dataMap['Dasyuromorphia'])
 		.enter()
 			.append("path")
-			.attr("d", d3.svg.symbol().type("triangle-up"))
-			.attr("fill", "none")
-			.attr("stroke", "green")
-			.attr("transform", function(d) { return "translate(" + xScale(d[0]) + "," + yScale(d[1]) + ")"; });
-	
-//			.append("polygon")
-//			.attr("fill", "none")
-//			.attr("stroke", "green")
-//			.attr("points", function (d) {
-//				var scaledX = xScale(d[0]);
-//				var scaledY = yScale(d[1]);
-//				
-//				var pts =  (scaledX - 3) + ' ' + (scaledY + 3) 
-//					+ ',' + (scaledX + 3) + ' ' + (scaledY + 3)
-//					+ ',' + scaledX + ' ' + (scaledY - 3); 
-//				return pts;
-//			})
-//			;       
-	
-	
+				.attr("d", d3.svg.symbol().type("triangle-up"))
+				.attr("fill", "none")
+				.attr("stroke", "green")
+				.attr("transform", function(d) { return "translate(" + xScale(d[0]) + "," + yScale(d[1]) + ")"; });
 
 	//TODO: legend:
 	//Loop thru datamap
-	var legend = svg.selectAll(".legend")
-					.append("g")
-					.attr("class", "legend")
+	var legend = d3.select("#chart1")
+					.append("svg")
+						.attr("class", "legend")
+						.attr("width", w/2)
+						.attr("height", h)
 					.append("rect")
 					.attr("width", "20")
 					.attr("height", "20")
@@ -173,7 +153,7 @@ d3.tsv("data.tsv", function (error, data)
 	var yAxisLog = d3.svg.axis().scale(yLogScale).orient("left").ticks(5);
 
 	//Create the chart
-	var svgLog = d3.select("body")
+	var svgLog = d3.select("#chart2")
 					.append("svg")
 					.attr("width", w)
 					.attr("height", h);
