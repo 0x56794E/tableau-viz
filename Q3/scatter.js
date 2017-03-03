@@ -13,14 +13,6 @@ d3.tsv("data.tsv", function (error, data)
 		dataMap[d.Species].push([parseFloat(d.BodyMass), parseFloat(d.Distribution)]);
 	});
 	
-	var w = 750;
-	var h = 400;
-	var padding = 30;
-	
-	//*************************
-	//Chart #1 - Linear scale *
-	//*************************	
-	//Scale
 	//Calc maxX and maxY (and min)
 	var maxX = d3.max([dataMap['Lagomorpha'], dataMap['Didelphimorphia'], dataMap['Dasyuromorphia']].map(function (array) {
 		return d3.max(array, function (d) {
@@ -38,15 +30,22 @@ d3.tsv("data.tsv", function (error, data)
 		return d3.max(array, function (d) {
 			return d[1];
 		})
-	}))
+	}));
 	
 	var minY = d3.min([dataMap['Lagomorpha'], dataMap['Didelphimorphia'], dataMap['Dasyuromorphia']].map(function (array) {
 		return d3.min(array, function (d) {
 			return d[1];
 		})
-	}))
+	}));
 	
+	var w = 750;
+	var h = 400;
+	var padding = 30;
 	
+	//*************************
+	//Chart #1 - Linear scale *
+	//*************************	
+	//Scale
 	var xScale = d3.scale.linear()
 						.domain([minY, maxX])
 						.range([padding, w - padding * 2]);
@@ -84,10 +83,25 @@ d3.tsv("data.tsv", function (error, data)
 		.attr("transform", "translate(0," + (h - padding) + ")")
 		.call(xAxis);
 	
+	svg.append("text")
+		.text("Body Mass")
+		.attr("x", "600")
+		.attr("y", "360");
+	
 	svg.append("g")
 		.attr("class", "axis")
 		.attr("transform", "translate(" + padding + ",0)")
 		.call(yAxis);
+	
+	svg.append("text")
+		.text("Distribution")
+		.attr("transform", "rotate(-90)")
+		.attr("x", "-80")
+		.attr("y", "35")
+		.style("text-anchor", "middle")
+		.attr("dy", "1em")
+		//
+		;
 	
 	//ADD backwards for z-index issue
 	//Line 3 - Dasyuromorphia (green triangle)
@@ -162,20 +176,17 @@ d3.tsv("data.tsv", function (error, data)
 				.text("Dasyuromorphia")
 				.attr("x", 10)
 				.attr("y", 25);
+	
 	//*************************
 	//Chart #2 - Log scale *
 	//*************************
 	var xLogScale = d3.scale.log()
-							.clamp(true)
 							.domain([minX, maxX])
-							.range([ padding, w - padding * 2 ])
-							.nice();
+							.range([ padding, w - padding * 2 ]);
 
 	var yLogScale = d3.scale.log()
-							.clamp(true)
 							.domain([minY, maxY])
-							.range([ h - padding, padding ])
-							.nice();
+							.range([ h - padding, padding ]);
 
 	//Set up the axes
 	var xAxisLog = d3.svg.axis()
@@ -184,7 +195,7 @@ d3.tsv("data.tsv", function (error, data)
 						.innerTickSize(2 * padding - h)
 						.outerTickSize(0)
 						.tickPadding(10)
-						.ticks(5);
+						.ticks(6);
 
 	var yAxisLog = d3.svg.axis()
 						.scale(yLogScale)
@@ -202,7 +213,12 @@ d3.tsv("data.tsv", function (error, data)
 			.attr("class", "axis")
 			.attr("transform","translate(0," + (h - padding) + ")")
 			.call(xAxisLog);
-
+	svgLog.append("text")
+			.text("Body Mass")
+			.attr("x", "680")
+			.attr("y", "360")
+			.attr("text-anchor", "end");
+	
 	svgLog.append("g")
 			.attr("class", "axis")
 			.attr("transform",	"translate(" + padding + ",0)")
