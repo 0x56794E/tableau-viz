@@ -99,9 +99,7 @@ d3.tsv("data.tsv", function (error, data)
 		.attr("x", "-80")
 		.attr("y", "35")
 		.style("text-anchor", "middle")
-		.attr("dy", "1em")
-		//
-		;
+		.attr("dy", "1em");
 	
 	//ADD backwards for z-index issue
 	//Line 3 - Dasyuromorphia (green triangle)
@@ -224,6 +222,15 @@ d3.tsv("data.tsv", function (error, data)
 			.attr("transform",	"translate(" + padding + ",0)")
 			.call(yAxisLog);
 
+	svgLog.append("text")
+		.text("Distribution")
+		.attr("transform", "rotate(-90)")
+		.attr("x", "-80")
+		.attr("y", "35")
+		.style("text-anchor", "middle")
+		.attr("dy", "1em");
+	
+	
 	//Line 1 - Lagomorpha (red circle)
 	svgLog.append("g")
 		.selectAll("path")
