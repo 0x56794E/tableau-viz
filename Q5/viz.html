@@ -34,10 +34,20 @@
 		{
 			line-height: 1;
 		  	font-weight: bold;
-		  	padding: 12px;
-		  	background: rgba(204, 204, 204, 0.8);
-		  	color: #fff;
+		  	padding: 5px;
+		  	background: rgba(255, 250, 216, 0.9);
+		  	color: black;
 		  	border-radius: 2px;
+		}
+		
+		.link-tooltip span
+		{
+			padding: 5px;
+		}
+		
+		.link-tooltip .name
+		{
+			color: white;	
 		}
 		</style>
 		
@@ -64,8 +74,8 @@
 	//Tooltip stuff
 	var tip = d3.tip().html(function (d) {
 			return "<div class='link-tooltip'>" 
-			 + "<span style='color:" + d.source.color + "'>" + d.source.name + "</span> - "
-			 + "<span style='color:" + d.target.color + "'>" + d.target.name + "</span> - "
+			 + "<span class='name' style='background:" + d.source.color + "'>" + d.source.name + "</span> - "
+			 + "<span class='name' style='background:" + d.target.color + "'>" + d.target.name + "</span> - "
 			 + d.value
 			 + "</div>";
 		});
