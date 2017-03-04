@@ -8,23 +8,18 @@ var data = [{product:'Product A',freq:{Q1:576, Q2:1176, Q3:1009, Q4:494}},
 {product:'Product G',freq:{Q1:1457, Q2:2557, Q3:2245, Q4:762}},
 {product:'Product H',freq:{Q1:2573, Q2:3357, Q3:1598, Q4:1287}}];
 
-var margin = {top: 20, right: 20, bottom: 70, left: 40},
+var margin = {top: 50, right: 20, bottom: 70, left: 100},
 width = 600 - margin.left - margin.right,
-height = 300 - margin.top - margin.bottom;
+height = 600 - margin.top - margin.bottom;
 
 //Parse the date / time
-var x = d3.scale.ordinal().rangeRoundBands([0, width], .05);
-
-var y = d3.scale.linear().range([height, 0]);
-
-var xAxis = d3.svg.axis()
-.scale(x)
-.orient("bottom");
+var y = d3.scale.ordinal().rangeRoundBands([0, width], .05);
+var x = d3.scale.linear().range([height, 0]);
 
 var yAxis = d3.svg.axis()
 .scale(y)
-.orient("left")
-.ticks(10);
+.orient("left");
+
 
 var svg = d3.select("body")
 			.append("svg")
@@ -34,31 +29,37 @@ var svg = d3.select("body")
 			.attr("transform", 
 			      "translate(" + margin.left + "," + margin.top + ")");
 
-data.forEach(function(d) {
+data.forEach(function(d) 
+{
     d.value = +d.freq.Q1 + d.freq.Q2 + d.freq.Q3 + d.freq.Q4;
 });
 
-x.domain(data.map(function(d) { return d.product; }));
-y.domain([0, d3.max(data, function(d) { return d.value; })]);
+y.domain(data.map(function(d) { return d.product; }));
+x.domain([0, d3.max(data, function(d) { return d.value; })]);
 
 svg.append("g")
-  .attr("class", "x axis")
-  .attr("transform", "translate(0," + height + ")")
-  .call(xAxis)
-.selectAll("text")
-  .style("text-anchor", "end")
-  .attr("dx", "-.8em")
-  .attr("dy", "-.55em")
-  .attr("transform", "rotate(-90)" );
+  .attr("class", "y axis")
+  .call(yAxis)
+	.selectAll("text")
+	  .style("text-anchor", "end")
+	  .attr("dx", "-.8em")
+	  .attr("dy", "-.55em");
 
 svg.selectAll("bar")
   .data(data)
-.enter().append("rect")
-  .style("fill", "steelblue")
-  .attr("x", function(d) { return x(d.product); })
-  .attr("width", x.rangeBand())
-  .attr("y", function(d) { return y(d.value); })
-  .attr("height", function(d) { return height - y(d.value); });
+	.enter().append("rect")
+	  .style("fill", "steelblue")
+	  .attr("x", function(d) { return 0; })
+	  .attr("height", y.rangeBand())
+	  .attr("y", function(d) { return y(d.product); })
+	  .attr("width", function(d) { return height - x(d.value); })
+	  .append("text")
+	  .attr("text-anchor", "end")
+	  .text(function(d) 
+			  {
+		  		return d.value;
+			  });
+
 
 
 
