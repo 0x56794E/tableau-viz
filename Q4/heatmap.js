@@ -31,7 +31,7 @@ d3.csv("heatmap.csv", function (error, lines)
 	var months = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"]; //HACK: Add empty months b4 jan!!
 	var x = d3.scale.ordinal()
 				.domain(months.slice(1))
-				.rangeBands([0, width], 0.5);
+				.rangeBands([0, width]);
 	
 	var y = d3.scale.linear().range([height, 0]);
 	var z = d3.scale.linear().range(["beige", "red"]); //Color scale
@@ -118,7 +118,7 @@ d3.csv("heatmap.csv", function (error, lines)
 		  svg.append("g")
 		      .attr("class", "x axis")
 		      .attr("transform", "translate(0," + height + ")")
-		      .call(d3.svg.axis().scale(x).orient("bottom"))
+		      .call(d3.svg.axis().scale(x).orient("bottom").tickSize(6, 0, 0))
 		      //Label
 			    .append("text")
 			      .attr("class", "label")
@@ -126,7 +126,10 @@ d3.csv("heatmap.csv", function (error, lines)
 			      .attr("y", 0)
 			      .attr("text-anchor", "end")
 			      .text("Month");
-
+		  
+		  svg.selectAll("path.domain")
+		  		.attr("d", "M34,0V0H786V00");
+		  
 		  // Add a y-axis with label.
 		  svg.append("g")
 		      .attr("class", "y axis")
