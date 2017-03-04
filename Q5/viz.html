@@ -29,6 +29,16 @@
 		.link:hover {
 		  stroke-opacity: .5;
 		}		
+		
+		.link-tooltip
+		{
+			line-height: 1;
+		  	font-weight: bold;
+		  	padding: 12px;
+		  	background: rgba(204, 204, 204, 0.8);
+		  	color: #fff;
+		  	border-radius: 2px;
+		}
 		</style>
 		
 		
@@ -53,7 +63,11 @@
 
 	//Tooltip stuff
 	var tip = d3.tip().html(function (d) {
-			return "Hello world";
+			return "<div class='link-tooltip'>" 
+			 + "<span style='color:" + d.source.color + "'>" + d.source.name + "</span> - "
+			 + "<span style='color:" + d.target.color + "'>" + d.target.name + "</span> - "
+			 + d.value
+			 + "</div>";
 		});
 	
 	// append the svg canvas to the page
