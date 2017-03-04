@@ -33,6 +33,7 @@
 		
 		
 		<script type="text/javascript" src="../lib/d3.v3.min.js"></script>
+		<script type="text/javascript" src="../lib/d3.tip.v0.6.3.js"></script>
 		<script type="text/javascript" src="../lib/sankey.js"></script>
 	</head>
 	<body>
@@ -49,14 +50,21 @@
 	var formatNumber = d3.format(",.0f"),    // zero decimal places
 	    format = function(d) { return formatNumber(d) + " " + units; },
 	    color = d3.scale.category20();
+
+	//Tooltip stuff
+	var tip = d3.tip().html(function (d) {
+			return "Hello world";
+		});
 	
 	// append the svg canvas to the page
 	var svg = d3.select("#chart").append("svg")
 	    .attr("width", width + margin.left + margin.right)
 	    .attr("height", height + margin.top + margin.bottom)
-	  .append("g")
-	    .attr("transform", 
-	          "translate(" + margin.left + "," + margin.top + ")");
+		  .append("g")
+		    .attr("transform", 
+		          "translate(" + margin.left + "," + margin.top + ")");
+	
+	svg.call(tip);
 	
 	// Set the sankey diagram properties
 	var sankey = d3.sankey()
@@ -116,11 +124,14 @@
 	 	    .layout(32);
 	
 	 	// add in the links
-	 	  var link = svg.append("g").selectAll(".link")
-			 	      .data(graph.links)
+	 	  var link = svg.append("g")
+	 	  				.selectAll(".link")
+			 	      	.data(graph.links)
 			 	    	.enter().append("path")
 				 	      .attr("class", "link")
 				 	      .attr("d", path)
+				 	      .on("mouseover", tip.show)
+			              .on("mouseout", tip.hide)
 				 	      .style("stroke-width", function(d) { 
 				 	    	  return Math.max(1, d.dy); 
 				 	    	  })
@@ -180,9 +191,12 @@
 	 	    sankey.relayout();
 	 	    link.attr("d", path);
 	 	  }
+	 	
 	 	});    
 	});
 	
+	
+
 	</script>
 	
 	</body>
