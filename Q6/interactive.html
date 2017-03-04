@@ -10,15 +10,33 @@
 				padding: 2px 0;
 			}
 			
-			#chart-area .bar text
+			#chart-area .bar text,
+			#info .bar text
 			{
 				fill: white;
-				text-anchor: end;
+				text-anchor: start;
 			}
 			
-			#chart-area path
+			#chart-area rect.hover,
+			#info rect
+			{
+				fill: #f23c70;
+				
+			}
+			
+			#chart-area path,
+			#info path
 			{
 				fill: none;
+			}
+			
+			#info
+			{
+				background: #fffcea;
+				float: right;
+				position: absolute;
+				top: 10px;
+				right: 10px;
 			}
 			
 			
@@ -27,6 +45,7 @@
 	
 	<body>
 		<svg id="chart-area"></svg>
+		<svg id="info"></svg>
 		<script type="text/javascript" src="interactive.js"></script>
 		
 	</body>
