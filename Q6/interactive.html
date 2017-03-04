@@ -6,7 +6,7 @@
 		<style type="text/css">
 			#chart-area rect
 			{
-				fill: steelblue;
+				fill: #2f1c87;
 				padding: 2px 0;
 			}
 			
@@ -20,8 +20,13 @@
 			#chart-area rect.hover,
 			#info rect
 			{
-				fill: #f23c70;
+				fill: #938700;
 				
+			}
+			
+			rect.hover text
+			{
+				fill: black;
 			}
 			
 			#chart-area path,
@@ -29,16 +34,24 @@
 			{
 				fill: none;
 			}
+					
+			#chart-area .y-axis
+			{
+				fill: #2f1c87;
+			}
 			
 			#info
 			{
-				background: #fffcea;
 				float: right;
 				position: absolute;
 				top: 10px;
 				right: 10px;
 			}
-			
+	
+			#info .y-axis
+			{
+				fill: #938700;
+			}
 			
     	</style>
 	</head>

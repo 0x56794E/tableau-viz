@@ -18,7 +18,7 @@ var margin = {top: 50, right: 20, bottom: 70, left: 100},
 width = 600 - margin.left - margin.right,
 height = 600 - margin.top - margin.bottom;
 
-var infoL = 10;
+var infoL = 50;
 var infoT = 20;
 var infoW = 400;
 var infoH = 200;
@@ -29,7 +29,7 @@ var infoSVG = d3.select("#info")
 				.attr("width", infoW)
 				.attr("height", infoH)
 				.append("g")
-				.attr("transform", "translate(" + infoL + "," + infoT + ")");
+				.attr("transform", "translate(50," + infoT + ")");
 
 var chartSVG = d3.select("#chart-area")
 			.attr("width", width + margin.left + margin.right)
@@ -53,10 +53,9 @@ var yAxis = d3.svg.axis()
 	.orient("left");
 
 chartSVG.append("g")
-  .attr("class", "y axis")
+  .attr("class", "y-axis")
   .call(yAxis)
 	.selectAll("text")
-	  .style("text-anchor", "end")
 	  .attr("dx", "-.8em")
 	  .attr("dy", "-.55em");
 
@@ -97,10 +96,9 @@ bar.append("rect")
 							.orient("left");
 		
 		infoSVG.append("g")
-		  .attr("class", "y axis")
+		  .attr("class", "y-axis")
 		  .call(subYAxis)
 			.selectAll("text")
-			  .style("text-anchor", "end")
 			  .attr("dx", "-.8em")
 			  .attr("dy", "-.55em");
 		
@@ -129,8 +127,7 @@ bar.append("rect")
 
 	})
 	.on("mouseout", function (d) {
-		d3.select(this)
-			.classed("hover", false);
+		d3.select(this).classed("hover", false);
 		
 		d3.select("#info g").html("");
 	});
