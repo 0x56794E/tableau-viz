@@ -25,10 +25,14 @@ d3.csv("heatmap.csv", function (error, lines)
 	var width = 960 - margin.left - margin.right;
 	var height = 500 - margin.top - margin.bottom;
 
-	var parseDate = d3.time.format("%m").parse;
-	var formatDate = d3.time.format("%b");
+//	var parseDate = d3.time.format("%m").parse;
+//	var formatDate = d3.time.format("%b");
 
-	var x = d3.scale.linear().range([0, width]);
+	var months = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"]; //HACK: Add empty months b4 jan!!
+	var x = d3.scale.ordinal()
+				.domain(months.slice(1))
+				.rangeBands([0, width], 0.5);
+	
 	var y = d3.scale.linear().range([height, 0]);
 	var z = d3.scale.linear().range(["beige", "red"]); //Color scale
 	
@@ -54,9 +58,6 @@ d3.csv("heatmap.csv", function (error, lines)
 					.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 		
 		//Comp the scale domains
-		x.domain(d3.extent(buckets, function(d) {
-			return d.Month;
-			}));
 		y.domain(d3.extent(buckets, function(d) {
 			return d.Year; 
 			}));
@@ -69,7 +70,6 @@ d3.csv("heatmap.csv", function (error, lines)
 				  })]);
 
 		// Extend the x and y dom 
-		x.domain([x.domain()[0], +x.domain()[1] + xStep]);
 		y.domain([y.domain()[0], y.domain()[1] + yStep]);
 		
 		//Show tiles for non-zero
@@ -78,9 +78,9 @@ d3.csv("heatmap.csv", function (error, lines)
 			.enter()
 			.append("rect")
 			.attr("class", "tile")
-			.attr("x", function (d) { return x(d.Month); })
+			.attr("x", function (d) { return x(months[d.Month]); })
 			.attr("y", function (d) { return y(d.Year + yStep); })
-			.attr("width", x(xStep) - x(0))
+			.attr("width", x(months[2]) - x(months[1]))
 			.attr("height", y(0) - y(yStep))
 			.style("fill", function (d) { return z(d.Power); })
 			.style("stroke", "white")
@@ -119,12 +119,13 @@ d3.csv("heatmap.csv", function (error, lines)
 		      .attr("class", "x axis")
 		      .attr("transform", "translate(0," + height + ")")
 		      .call(d3.svg.axis().scale(x).orient("bottom"))
-		    .append("text")
-		      .attr("class", "label")
-		      .attr("x", width + 50)
-		      .attr("y", 0)
-		      .attr("text-anchor", "end")
-		      .text("Month");
+		      //Label
+			    .append("text")
+			      .attr("class", "label")
+			      .attr("x", width + 50)
+			      .attr("y", 0)
+			      .attr("text-anchor", "end")
+			      .text("Month");
 
 		  // Add a y-axis with label.
 		  svg.append("g")
