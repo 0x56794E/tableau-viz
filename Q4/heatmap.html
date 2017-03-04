@@ -15,13 +15,18 @@
 			}
 			
 			.label
-			 {
+			{
 			  font-weight: bold;
 			}
 			
 			.tile 
 			{
 			  shape-rendering: crispEdges;
+			}
+			
+			#chart-area .tile
+			{
+				stroke-width: 5px;
 			}
 			
 			.axis path,
@@ -31,10 +36,17 @@
 			  stroke: #000;
 			  shape-rendering: crispEdges;
 			}
+			
+			.center-text
+			{
+				text-align: center;
+			}
     	</style>
 	</head>
 	<body>
-		<div id="chart-area"></div>
+		<div class="center-text"><h1>Water Usage Heat Map</h1></div>
+		<div class="center-text"><select id="zip-selector"></select></div>
+		<div id="chart-area"></div>	
 		<script type="text/javascript" src="heatmap.js"></script>
 	</body>
 </html>
