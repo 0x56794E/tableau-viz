@@ -34,7 +34,7 @@
 		{
 			line-height: 1;
 		  	font-weight: bold;
-		  	padding: 5px;
+		  	padding: 5px 5px 5px 0;
 		  	background: rgba(255, 250, 216, 0.9);
 		  	color: black;
 		  	border-radius: 2px;
@@ -74,10 +74,10 @@
 	//Tooltip stuff
 	var tip = d3.tip().html(function (d) {
 			return "<div class='link-tooltip'>" 
-			 + "<span class='name' style='background:" + d.source.color + "'>" + d.source.name + "</span> - "
-			 + "<span class='name' style='background:" + d.target.color + "'>" + d.target.name + "</span> - "
+			 + "<span class='name' style='background:" + d.source.color + "'>" + d.source.name + "</span>  "
+			 + "<span class='name' style='background:" + d.target.color + "'>" + d.target.name + "</span>  ("
 			 + d.value
-			 + "</div>";
+			 + " pts)</div>";
 		});
 	
 	// append the svg canvas to the page
