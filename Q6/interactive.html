@@ -10,16 +10,23 @@
 				padding: 2px 0;
 			}
 			
-			#chart-area text
+			#chart-area .bar text
 			{
-				text-anchor: end;
 				fill: white;
+				text-anchor: end;
 			}
+			
+			#chart-area path
+			{
+				fill: none;
+			}
+			
+			
     	</style>
 	</head>
 	
 	<body>
-	
+		<svg id="chart-area"></svg>
 		<script type="text/javascript" src="interactive.js"></script>
 		
 	</body>
