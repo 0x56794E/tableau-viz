@@ -88,7 +88,7 @@ d3.csv("heatmap.csv", function (error, lines)
 		
 		//Add a legend for color values
 		var legend = svg.selectAll(".legend")
-						.data(z.ticks(6).slice(1).reverse())
+						.data(z.ticks(6).reverse())
 						.enter().append("g")
 						.attr("class", "legend")
 						.attr("transform", function (d, i) { 
