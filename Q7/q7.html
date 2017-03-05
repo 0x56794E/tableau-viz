@@ -42,13 +42,39 @@
 				var incomes = data[1];
 				
 				//Process income data
+				var minIncome = -1, maxIncome = -1;
 				incomes.map(function (income) {
-					medIncome.set(income.id, income.median_earnings);
+					var inc = +income.median_earnings;
+					
+					if (minIncome < 0 || inc < minIncome)
+						minIncome = inc;
+					if (maxIncome < 0 || inc > maxIncome)
+						maxIncome = inc;
+					
+					medIncome.set(income.id, inc);
 				});
 				
-				//Process geo data
-				var states
+				//Chart stuff
+				var states = topojson.feature(us, us.objects.states).features;
+				var projection = d3.geo.mercator();
+				var path = d3.geo.path().projection (projection);
 				
+				//Color scale
+				var color = d3.scale.linear()
+								.domain([minIncome, maxIncome])
+								.range(["white", "green"]);
+				
+				svg.selectAll(".state")
+						.data(states)
+						.enter()
+						.append("path")
+						.attr("class", function (d) {
+							return "state " + d.id;
+						})
+						.attr("fill", function (d) {
+							return color(medIncome.get(d.id));
+						})
+						.attr("d", path);
 			 });
 		
 		
