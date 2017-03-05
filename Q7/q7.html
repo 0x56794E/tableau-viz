@@ -28,49 +28,31 @@
 		var svg = d3.select("svg"),
 	    width = +svg.attr("width"),
 	    height = +svg.attr("height");
+		
+		var medIncome = d3.map();
+		 d3.queue()
+			.defer(d3.json, "us.json")
+			.defer(d3.json, "median_earnings.json")
+			.awaitAll(function (error, data) 
+			{ 
+				if (error)
+					return console.log("Error loading data. Bye!!!");
+				
+				var us = data[0];
+				var incomes = data[1];
+				
+				//Process income data
+				incomes.map(function (income) {
+					medIncome.set(income.id, income.median_earnings);
+				});
+				
+				//Process geo data
+				var states
+				
+			 });
+		
+		
 	
-		d3.json("us.json", function (error, us)
-		{
-			if (error)
-				return console.error(error);
-			
-			var states = topojson.feature(us, us.objects.states).features;
-			var projection = d3.geo.mercator();
-			var path = d3.geo.path().projection (projection);
-			var minId = d3.min(states, function (d) {
-				return d.id;
-			});
-			var maxId = d3.max(states, function (d) {
-				return d.id;
-			});
-			
-			//color range
-			var color = d3.scale.linear()
-						.domain([minId, maxId])
-				  		.range(["white", "green"])
-				  		; //Color scale
-			
-			 //Give ea state a color
-			 //TODO: based on med income
-		  	svg.selectAll(".state")
-		  		.data(states)
-		  		.enter().append("path")
-		  			//Give ea state a common class and a unique class
-		  			.attr("class", function (d) {
-		  				return "state " + d.id;
-		  			})
-		  			.attr("fill", function (d) {
-		  				//TODO: dis diff based on state
-		  				return color(d.id);
-		  			})
-		  			.attr("d", path);
-
-			//Show boundaries for features
-			svg.append("path")
-				.datum(states)
-				.attr("d", path)
-				.attr("class", "state-boundary");
-		});
 		
 	</script>
 	
