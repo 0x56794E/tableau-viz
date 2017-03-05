@@ -37,17 +37,18 @@
 			var states = topojson.feature(us, us.objects.states).features;
 			var projection = d3.geo.mercator();
 			var path = d3.geo.path().projection (projection);
+			var minId = d3.min(states, function (d) {
+				return d.id;
+			});
+			var maxId = d3.max(states, function (d) {
+				return d.id;
+			});
 			
 			//color range
-			var p = d3.scale.category10();
-			var range = p.range();
-			
-			var color = d3.scale.category20()
-						.domain(states.map(function (state) {
-				  			return state.id;
-				  		}))
-						//.range(range)
-						; //Color scale
+			var color = d3.scale.linear()
+						.domain([minId, maxId])
+				  		.range(["white", "green"])
+				  		; //Color scale
 			
 			
 		  	/* svg.append("path")
