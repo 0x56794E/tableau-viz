@@ -92,7 +92,7 @@ d3.csv("heatmap.csv", function (error, lines)
 						.enter().append("g")
 						.attr("class", "legend")
 						.attr("transform", function (d, i) { 
-							return "translate(" + (width + 20) + "," + (20 + i * 20) + ")"; 
+							return "translate(" + (width + 20) + "," + (20 + i * 23) + ")"; 
 						});
 		
 		legend.append("rect")

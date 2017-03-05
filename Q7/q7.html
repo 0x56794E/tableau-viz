@@ -111,12 +111,11 @@
 				
 					var str = "<div class='score-tip'>";
 					
-					for (var i = 0; i < 5; ++i)
-					{
+					state_scores.forEach(function (score) {
 						str = str + "<div>" 
-							+ state_scores[i][0] + " (SAT: "
-							+ state_scores[i][1] + ")</div>";
-					}
+							+ score[0] + " (SAT: "
+							+ score[1] + ")</div>";
+					});
 					return str + "</div>";
 				});
 				
@@ -149,6 +148,33 @@
 				
 				//Tool tip stuff
 				svg.call(tip);
+				
+				
+				//Legend
+				var legend = svg.selectAll("legend")
+								.data(color.ticks())
+								.enter()
+								.append("g")
+									.attr("class", "legend")
+									.attr("transform", function (d, i) {
+										return "translate(" + (width - 80) + "," + (100 + i * 23) + ")";
+									});
+				
+				legend.append("rect")
+						.attr("width", 20)
+					    .attr("height", 20)
+					    .style("stroke", "white")
+					    .style("fill", color);
+				var fmt = d3.format("$0,000.00");
+				legend.append("text")
+			    .attr("x", 26)
+			    .attr("y", 10)
+			    .attr("dy", ".35em")
+			    .text(function (str)
+			    		{
+			    			return fmt(str);
+			    		});
+						
 			 });
 		
 		
