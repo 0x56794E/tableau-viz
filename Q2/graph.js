@@ -481,10 +481,13 @@ var node = svg.selectAll(".node")
 
 //Scale for the node size
 var rScale = d3.scale.linear()
-					.domain([0, d3.max(force.nodes(), function(d) {
+					.domain([d3.min(force.nodes(), function (d) {
+						return d.weight;
+					}), 
+						d3.max(force.nodes(), function(d) {
 						return d.weight; //TODO: fix this
 					})])
-					.range([2, 10]); //Radius btw [1,5]
+					.range([2, 10]); //Radius btw [2, 10]
 
 // add the nodes
 node.append("circle")
