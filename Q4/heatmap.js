@@ -21,7 +21,7 @@ d3.csv("heatmap.csv", function (error, lines)
 	});
 	
 	//Fixed chart stuff
-	var margin = {top: 20, right: 90, bottom: 30, left: 50};
+	var margin = {top: 100, right: 90, bottom: 30, left: 50};
 	var width = 960 - margin.left - margin.right;
 	var height = 500 - margin.top - margin.bottom;
 
@@ -70,7 +70,7 @@ d3.csv("heatmap.csv", function (error, lines)
 				  })]);
 
 		// Extend the x and y dom 
-		y.domain([y.domain()[0], y.domain()[1] + yStep]);
+		y.domain([y.domain()[0], y.domain()[1]]);
 		
 		//Show tiles for non-zero
 		svg.selectAll(".tile")
@@ -115,31 +115,38 @@ d3.csv("heatmap.csv", function (error, lines)
 		    .text("kWh");
 		
 		// Add an x-axis with label.
-		  svg.append("g")
-		      .attr("class", "x axis")
-		      .attr("transform", "translate(0," + height + ")")
-		      .call(d3.svg.axis().scale(x).orient("bottom").tickSize(6, 0, 0))
-		      //Label
-			    .append("text")
-			      .attr("class", "label")
-			      .attr("x", width + 50)
-			      .attr("y", 0)
-			      .attr("text-anchor", "end")
-			      .text("Month");
+		var xAxis = d3.svg.axis().scale(x).orient("bottom").tickSize(6, 0, 0);
+		
+		svg.append("g")
+	      .attr("class", "x-axis")
+	      .attr("transform", "translate(0," + height + ")")
+	      .call(xAxis)
+	      //Label
+		    .append("text")
+		      .attr("class", "label")
+		      .attr("x", width + 50)
+		      .attr("y", 0)
+		      .attr("text-anchor", "end")
+		      .text("Month");
 		  
 		  svg.selectAll("path.domain")
 		  		.attr("d", "M34,0V0H786V00");
 		  
 		  // Add a y-axis with label.
+		  var yAxis = d3.svg.axis()
+		  			.scale(y)
+		  			.orient("left")
+		  			.tickFormat(d3.format("000"));
 		  svg.append("g")
-		      .attr("class", "y axis")
-		      .call(d3.svg.axis().scale(y).orient("left").tickFormat(d3.format("000")))
-		    .append("text")
-		      .attr("class", "label")
-		      .attr("y", -20)
-		      .attr("dy", ".71em")
-		      .attr("text-anchor", "end")
-		      .text("Year");
+		      .attr("class", "y-axis")
+		      .attr("transform", "translate(0, -20)")
+		      .call(yAxis)
+			    .append("text")
+			      .attr("class", "label")
+			      .attr("y", -20)
+			      .attr("dy", ".71em")
+			      .attr("text-anchor", "end")
+			      .text("Year");
 	});
 	
 	var options = select.selectAll("option")
