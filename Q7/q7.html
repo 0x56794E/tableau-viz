@@ -46,7 +46,7 @@
 				incomes.map(function (income) {
 					var inc = +income.median_earnings;
 					
-					if (minIncome < 0 || inc < minIncome)
+					if (minIncome < 0 || (minIncome > 0 && inc < minIncome))
 						minIncome = inc;
 					if (maxIncome < 0 || inc > maxIncome)
 						maxIncome = inc;
@@ -60,9 +60,12 @@
 				var path = d3.geo.path().projection (projection);
 				
 				//Color scale
+				console.log("minIncome: " + minIncome);
+				console.log("maxIncome: " + maxIncome);
+				
 				var color = d3.scale.linear()
 								.domain([minIncome, maxIncome])
-								.range(["white", "green"]);
+								.range(["#fff", "#1d6d00"]);
 				
 				svg.selectAll(".state")
 						.data(states)
