@@ -20,6 +20,8 @@
 		<script type="text/javascript" src="../lib/d3.v3.min.js"></script>
 		<script type="text/javascript" src="../lib/d3-queue.v3.min.js"></script>
 		<script type="text/javascript" src="../lib/topojson.v1.min.js"></script>
+		<script type="text/javascript" src="../lib/d3.tip.v0.6.3.js"></script>
+		
 	</head>
 	<body>
 		<svg width="960" height="600"></svg>
@@ -28,11 +30,18 @@
 		var svg = d3.select("svg"),
 	    width = +svg.attr("width"),
 	    height = +svg.attr("height");
+
+		var tip = d3.tip().html(function (d) {
+			
+			return "hello world";
+		});
 		
-		var medIncome = d3.map();
+		var medIncome = d3.map(); //key: state ID; value: med income
+		var scores = d3.map(); //key: state ID; value: array [school_name, score]
 		 d3.queue()
 			.defer(d3.json, "us.json")
 			.defer(d3.json, "median_earnings.json")
+			.defer(d3.csv, "sat_scores.csv")
 			.awaitAll(function (error, data) 
 			{ 
 				if (error)
@@ -40,6 +49,7 @@
 				
 				var us = data[0];
 				var incomes = data[1];
+				var all_scores = data[2];
 				
 				//Process income data
 				var minIncome = -1, maxIncome = -1;
@@ -52,6 +62,31 @@
 						maxIncome = inc;
 					
 					medIncome.set(income.id, inc);
+				});
+				
+				//Process SAT scores
+				//Stupid for now
+				//id,name,sat_avg
+				all_scores.map(function (score) {
+					//If not in map 
+					if (!scores.has(score.id))
+						scores.set(score.id, []);
+				
+					scores.get(score.id).push([score.name, score.sat_avg]);
+				});
+				
+				//Sort the scores and keep top 5
+				//State_score: [school name, score]
+				scores.forEach(function (state, state_scores)
+				{
+					state_scores.sort(function (score1, score2)
+										{
+											//desc order
+											return score2[1] - score1[1];
+										});
+					
+					scores.set(state, state_scores.slice(0, 5));
+					console.log("done");
 				});
 				
 				//Chart stuff
@@ -77,7 +112,12 @@
 						.attr("fill", function (d) {
 							return color(medIncome.get(d.id));
 						})
+						.on("mouseover", tip.show)
+						.on("mouseout", tip.hide)
 						.attr("d", path);
+				
+				//Tool tip stuff
+				svg.call(tip);
 			 });
 		
 		
