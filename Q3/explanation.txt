@@ -1,0 +1,2 @@
+Because one of the dimensions of the data increases/decreases much slower than the other.
+Use log scale will make it easier to see the increase.
