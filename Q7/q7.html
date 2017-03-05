@@ -8,7 +8,13 @@
 		<meta charset="utf-8">
 		<title>Q7</title>
 		<style>
-		
+		.state-boundary 
+		{
+		  fill: none;
+		  stroke: #777;
+		  stroke-dasharray: 2,2;
+		  stroke-linejoin: round;
+		}
 		</style>
 		
 		<script type="text/javascript" src="../lib/d3.v3.min.js"></script>
@@ -28,23 +34,48 @@
 			if (error)
 				return console.error(error);
 			
-			var states = topojson.feature(us, us.objects.states);
+			var states = topojson.feature(us, us.objects.states).features;
 			var projection = d3.geo.mercator();
 			var path = d3.geo.path().projection (projection);
+			
+			//color range
+			var p = d3.scale.category10();
+			var range = p.range();
+			
+			var color = d3.scale.category20()
+						.domain(states.map(function (state) {
+				  			return state.id;
+				  		}))
+						//.range(range)
+						; //Color scale
+			
 			
 		  	/* svg.append("path")
 		      .datum(states)
 		      .attr("d", path);
 		  	 */
+		  	 
+		  	 //Give ea state a color
 		  	svg.selectAll(".state")
-		  		.data(states.features)
+		  		.data(states)
 		  		.enter().append("path")
+		  			//Give ea state a common class and a unique class
 		  			.attr("class", function (d) {
 		  				return "state " + d.id;
 		  			})
-		  			.attr("fill", "red")
+		  			.attr("fill", function (d) {
+		  				//TODO: dis diff based on state
+		  				return color(d.id);
+		  			})
 		  			.attr("d", path);
+
+			//Show boundaries for features
+			svg.append("path")
+				.datum(states)
+				.attr("d", path)
+				.attr("class", "state-boundary");
 		});
+		
 	</script>
 	
 	</body>
