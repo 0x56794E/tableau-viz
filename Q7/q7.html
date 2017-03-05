@@ -50,13 +50,8 @@
 				  		.range(["white", "green"])
 				  		; //Color scale
 			
-			
-		  	/* svg.append("path")
-		      .datum(states)
-		      .attr("d", path);
-		  	 */
-		  	 
-		  	 //Give ea state a color
+			 //Give ea state a color
+			 //TODO: based on med income
 		  	svg.selectAll(".state")
 		  		.data(states)
 		  		.enter().append("path")
