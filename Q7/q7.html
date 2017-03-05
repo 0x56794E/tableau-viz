@@ -15,6 +15,14 @@
 		  stroke-dasharray: 2,2;
 		  stroke-linejoin: round;
 		}
+		
+		.score-tip
+		{
+			background: rgba(0, 0, 0, 0.5);
+			color: white;
+			padding: 5px 50px;
+			text-align: center;
+		}
 		</style>
 		
 		<script type="text/javascript" src="../lib/d3.v3.min.js"></script>
@@ -31,11 +39,6 @@
 	    width = +svg.attr("width"),
 	    height = +svg.attr("height");
 
-		var tip = d3.tip().html(function (d) {
-			
-			return "hello world";
-		});
-		
 		var medIncome = d3.map(); //key: state ID; value: med income
 		var scores = d3.map(); //key: state ID; value: array [school_name, score]
 		 d3.queue()
@@ -87,6 +90,21 @@
 					
 					scores.set(state, state_scores.slice(0, 5));
 					console.log("done");
+				});
+				
+				//Tooltip for the scores
+				var tip = d3.tip().html(function (d) {
+					var state_scores = scores.get(d.id);
+				
+					var str = "<div class='score-tip'>";
+					
+					for (var i = 0; i < 5; ++i)
+					{
+						str = str + "<div>" 
+							+ state_scores[i][0] + " (SAT: "
+							+ state_scores[i][1] + ")</div>";
+					}
+					return str + "</div>";
 				});
 				
 				//Chart stuff
