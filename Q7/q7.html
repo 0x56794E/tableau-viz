@@ -56,7 +56,7 @@
 				
 				//Chart stuff
 				var states = topojson.feature(us, us.objects.states).features;
-				var projection = d3.geo.mercator();
+				var projection = d3.geo.albersUsa();
 				var path = d3.geo.path().projection (projection);
 				
 				//Color scale
