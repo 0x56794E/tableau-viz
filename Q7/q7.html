@@ -27,10 +27,23 @@
 		{
 			if (error)
 				return console.error(error);
-
-			  svg.append("path")
-			      .datum(topojson.feature(us, us.objects.states))
-			      .attr("d", d3.geo.path().projection(d3.geo.mercator()));
+			
+			var states = topojson.feature(us, us.objects.states);
+			var projection = d3.geo.mercator();
+			var path = d3.geo.path().projection (projection);
+			
+		  	/* svg.append("path")
+		      .datum(states)
+		      .attr("d", path);
+		  	 */
+		  	svg.selectAll(".state")
+		  		.data(states.features)
+		  		.enter().append("path")
+		  			.attr("class", function (d) {
+		  				return "state " + d.id;
+		  			})
+		  			.attr("fill", "red")
+		  			.attr("d", path);
 		});
 	</script>
 	
