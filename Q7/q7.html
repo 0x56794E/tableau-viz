@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<!-- ************************************* -->
+<!-- *          VY THUY NGUYEN           * -->
+<!-- * CSE-6242: Homework 2 - Question 5 * -->
+<!-- ************************************* -->
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Q7</title>
+		<style>
+		
+		</style>
+		
+		<script type="text/javascript" src="../lib/d3.v3.min.js"></script>
+		<script type="text/javascript" src="../lib/d3-queue.v3.min.js"></script>
+		<script type="text/javascript" src="../lib/topojson.v1.min.js"></script>
+	</head>
+	<body>
+		<svg width="960" height="600"></svg>
+	
+	<script>		
+		var svg = d3.select("svg"),
+	    width = +svg.attr("width"),
+	    height = +svg.attr("height");
+	
+		d3.json("us.json", function (error, us)
+		{
+			if (error)
+				return console.error(error);
+
+			  svg.append("path")
+			      .datum(topojson.feature(us, us.objects.states))
+			      .attr("d", d3.geo.path().projection(d3.geo.mercator()));
+		});
+	</script>
+	
+	</body>
+</html>
