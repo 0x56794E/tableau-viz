@@ -1,127 +1,17 @@
-Country of Residence,Country of Origin,Refugees (incl. refugee-like situations),Asylum-seekers (pending cases),Returned refugees,Total Population
-Austria,Afghanistan,2991,,25,3016
-,Eritrea,21,,,21
-,Gambia,12,,,12
-,Iran (Islamic Rep. of),1589,,,1589
-,Iraq,1224,,,1224
-,Russian Federation,6438,,,6438
-,Somalia,146,,,146
-,Serbia and Kosovo (S/RES/1244 (1999)),5091,,257,5348
-,Syrian Arab Rep.,122,,,122
-Belgium,Afghanistan,381,106,11,498
-,Eritrea,1,28,,29
-,Gambia,,5,,5
-,Iran (Islamic Rep. of),327,882,,1209
-,Iraq,231,1038,,1269
-,Mali,,9,,9
-,Russian Federation,3899,1614,,5513
-,Somalia,108,99,,207
-,Serbia and Kosovo (S/RES/1244 (1999)),1889,689,144,2722
-,Syrian Arab Rep.,115,409,,524
-Germany,Afghanistan,31055,5081,197,36333
-,Eritrea,2746,1135,,3881
-,Gambia,1041,113,,1154
-,Iran (Islamic Rep. of),24016,4883,,28899
-,Iraq,52922,5690,,58612
-,Mali,134,27,,161
-,Russian Federation,41732,4900,,46632
-,Somalia,2903,284,,3187
-,Serbia and Kosovo (S/RES/1244 (1999)),99789,11968,2480,114237
-,Syrian Arab Rep.,10469,2888,,13357
-Denmark,Afghanistan,6381,80,65,6526
-,Eritrea,56,8,,64
-,Iran (Islamic Rep. of),1755,42,,1797
-,Iraq,10667,61,,10728
-,Russian Federation,466,19,,485
-,Somalia,6648,26,,6674
-,Serbia and Kosovo (S/RES/1244 (1999)),4771,53,51,4875
-,Syrian Arab Rep.,188,12,,200
-Spain,Afghanistan,87,,,87
-,Eritrea,5,,,5
-,Gambia,12,,,12
-,Iran (Islamic Rep. of),99,,,99
-,Iraq,242,,,242
-,Russian Federation,483,,,483
-,Somalia,146,,,146
-,Serbia and Kosovo (S/RES/1244 (1999)),81,,9,90
-,Syrian Arab Rep.,21,,,21
-Finland,Afghanistan,1604,,1,1605
-,Eritrea,50,,,50
-,Iran (Islamic Rep. of),1683,,,1683
-,Iraq,1648,,,1648
-,Russian Federation,232,,,232
-,Somalia,1008,,,1008
-,Serbia and Kosovo (S/RES/1244 (1999)),1296,,116,1412
-,Syrian Arab Rep.,39,,,39
-France,Afghanistan,1228,,7,1235
-,Eritrea,63,,,63
-,Gambia,44,,,44
-,Iran (Islamic Rep. of),1634,,,1634
-,Iraq,1319,,,1319
-,Mali,129,,,129
-,Russian Federation,5292,,,5292
-,Somalia,587,,,587
-,Serbia and Kosovo (S/RES/1244 (1999)),6988,,71,7059
-,Syrian Arab Rep.,213,,,213
-United Kingdom,Afghanistan,22532,,354,22886
-,Eritrea,3617,,,3617
-,Gambia,202,,,202
-,Iran (Islamic Rep. of),9039,,,9039
-,Iraq,22363,,,22363
-,Mali,4,,,4
-,Russian Federation,1886,,,1886
-,Somalia,36319,,,36319
-,Serbia and Kosovo (S/RES/1244 (1999)),19717,,336,20053
-,Syrian Arab Rep.,208,,,208
-Hungary,Afghanistan,2376,9,,2385
-,Eritrea,3,,,3
-,Gambia,,1,,1
-,Iran (Islamic Rep. of),153,6,,159
-,Iraq,1252,3,,1255
-,Russian Federation,129,10,,139
-,Somalia,155,1,,156
-,Serbia and Kosovo (S/RES/1244 (1999)),2388,56,143,2587
-,Syrian Arab Rep.,44,5,,49
-Ireland,Afghanistan,77,,,77
-,Eritrea,48,,,48
-,Gambia,5,,,5
-,Iran (Islamic Rep. of),162,,,162
-,Iraq,257,,,257
-,Russian Federation,287,,,287
-,Somalia,309,,,309
-,Serbia and Kosovo (S/RES/1244 (1999)),368,,1,369
-,Syrian Arab Rep.,27,,,27
-Netherlands,Afghanistan,25086,1478,206,26770
-,Eritrea,494,179,,673
-,Gambia,7,7,,14
-,Iran (Islamic Rep. of),5573,688,,6261
-,Iraq,26618,1818,,28436
-,Mali,9,6,,15
-,Russian Federation,1466,350,,1816
-,Somalia,10715,674,,11389
-,Serbia and Kosovo (S/RES/1244 (1999)),3236,506,133,3875
-,Syrian Arab Rep.,1674,336,,2010
-Poland,Afghanistan,87,,,87
-,Eritrea,1,,,1
-,Iran (Islamic Rep. of),9,,,9
-,Iraq,47,,,47
-,Russian Federation,3785,1503,,5288
-,Somalia,157,,,157
-,Serbia and Kosovo (S/RES/1244 (1999)),16,,1,17
-,Syrian Arab Rep.,6,7,,13
-Portugal,Afghanistan,5,,,5
-,Gambia,1,,,1
-,Iran (Islamic Rep. of),1,,,1
-,Iraq,4,,,4
-,Russian Federation,1,,,1
-,Serbia and Kosovo (S/RES/1244 (1999)),1,,,1
-Sweden,Afghanistan,4264,699,6,4969
-,Eritrea,822,590,,1412
-,Gambia,9,6,,15
-,Iran (Islamic Rep. of),5016,844,,5860
-,Iraq,21046,2136,,23182
-,Mali,2,6,,8
-,Russian Federation,1178,535,,1713
-,Somalia,3486,992,,4478
-,Serbia and Kosovo (S/RES/1244 (1999)),11953,2260,355,14568
-,Syrian Arab Rep.,1032,367,,1399
+Refugees' Country of Origin vs. Country of Current Residence,,Country of Origin,,,,,,,,,,
+,,Afghanistan,Eritrea,Gambia,Iran (Islamic Rep. of),Iraq,Mali,Russian Federation,Somalia,Serbia and Kosovo (S/RES/1244 (1999)),Syrian Arab Rep.,Total
+Country of Residence,Austria,3016,21,12,1589,1224,,6438,146,5348,122,17916
+,Belgium,498,29,5,1209,1269,9,5513,207,2722,524,11985
+,Germany,36333,3881,1154,28899,58612,161,46632,3187,114237,13357,306453
+,Denmark,6526,64,,1797,10728,,485,6674,4875,200,31349
+,Spain,87,5,12,99,242,,483,146,90,21,1185
+,Finland,1605,50,,1683,1648,,232,1008,1412,39,7677
+,France,1235,63,44,1634,1319,129,5292,587,7059,213,17575
+,United Kingdom,22886,3617,202,9039,22363,4,1886,36319,20053,208,116577
+,Hungary,2385,3,1,159,1255,,139,156,2587,49,6734
+,Ireland,77,48,5,162,257,,287,309,369,27,1541
+,Netherlands,26770,673,14,6261,28436,15,1816,11389,3875,2010,81259
+,Poland,87,1,,9,47,,5288,157,17,13,5619
+,Portugal,5,,1,1,4,,1,,1,,13
+,Sweden,4969,1412,15,5860,23182,8,1713,4478,14568,1399,57604
+Total,,106479,9867,1465,58401,150586,326,76205,64763,177213,18182,

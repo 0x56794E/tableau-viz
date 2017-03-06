@@ -1,17 +1,6 @@
 Question 1 
 
-(a) Design table to display details of ref (total population) in 2005
-Data provided in cvs file
-
-Cols: 
-- Year
-- Country/Territory 
-- Origin
-- Refugee count (incl. ref like situations)
-- Asylum seeker (pending cases)
-- Returned ref
-- Internally displaced person ???
-- Returned IDPs 
-- Stateless person ???
-- Others of concern
-- Total population
+(a) The table gives shows the following info
+     - Refugees’ country of origin and current country of residence
+     - Total number of refugees each country takes in => Country taking in the most number of refugees. (Germany)
+     - Total number of refugees LEAVING each country => Country with most people fleeing (Serbia & Kosovo)
