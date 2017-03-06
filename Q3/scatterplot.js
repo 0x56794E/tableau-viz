@@ -203,13 +203,14 @@ d3.tsv("data.tsv", function (error, data)
 	//Create the chart
 	var svgLog = d3.select("#chart2")
 					.append("svg")
+					.attr("transform", "translate(5, 0)")
 					.attr("width", w)
 					.attr("height", h);
 
 	//Use the axes
 	svgLog.append("g")
 			.attr("class", "axis")
-			.attr("transform","translate(0," + (h - padding) + ")")
+			.attr("transform","translate(5," + (h - padding) + ")")
 			.call(xAxisLog);
 	svgLog.append("text")
 			.text("Body Mass")
